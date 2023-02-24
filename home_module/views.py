@@ -8,3 +8,12 @@ def index(request):
 
 def home(request):
     return HttpResponseRedirect(redirect_to='home')
+
+
+def header_component(request):
+    return render(request, 'shared/header.html')
+
+
+def footer_component(request):
+    return render(request, 'shared/footer.html')
+
