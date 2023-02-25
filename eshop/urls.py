@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from home_module import urls as home_url
+from product_module import urls as product_url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(home_url))
+    path('', include(home_url)),
+    path('products/', include(product_url))
 ]
