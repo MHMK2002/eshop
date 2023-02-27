@@ -1,35 +1,40 @@
 from django.shortcuts import render
 from .models import Product, ProductBrand, ProductCategory
+from django.views.generic import ListView, DetailView
+from django.views.generic.base import TemplateView
 
 
 # Create your views here.
-def product_list(request):
-    products = Product.objects.all()[:5]
+
+class ProductListView(ListView):
+    model = Product
+    context_object_name = 'products'
     brands = ProductBrand.objects.all()
     categories = ProductCategory.objects.all()
-    context = {
-        'products': products,
+    extra_context = {
         'brands': brands,
         'categories': categories
     }
-    return render(request, 'product_module/product_list.html', context)
+    template_name = 'product_module/product_list.html'
 
 
-def product_box(request, slug):
-    product = Product.objects.filter(slug=slug)[0]
-    context = {
-        'product': product,
-    }
-    return render(request, 'product_module/product_box.html', context)
+class ProductBoxView(TemplateView):
+    template_name = 'product_module/product_box.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['slug'] = kwargs['slug']
+        return context
 
 
-def product_detail(request, slug):
-    product = Product.objects.filter(slug=slug)[0]
-    brands = ProductBrand.objects.all()
-    categories = ProductCategory.objects.all()
-    context = {
-        'product': product,
-        'brands': brands,
-        'categories': categories
-    }
-    return render(request, 'product_module/product_detail.html', context)
+class ProductDetailView(DetailView):
+    model = Product
+    context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['brands'] = ProductBrand.objects.all()
+        context['categories'] = ProductCategory.objects.all()
+        return context
+
+

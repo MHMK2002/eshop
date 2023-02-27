@@ -2,18 +2,17 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from contact_module.fomrs import ContactUsForm, ConatctUsModelForm
-from contact_module.models import ContactUs
+from django.views.generic import FormView
 
 
 # Create your views here.
 
 
-def contact_us(request):
-    contact_form = ConatctUsModelForm(request.POST or None)
-    if contact_form.is_valid():
-        contact_form.save()
-        return HttpResponseRedirect('home')
+class ContactUsView(FormView):
+    template_name = 'contact_module/contact-us.html'
+    form_class = ConatctUsModelForm
+    success_url = 'home'
 
-    return render(request, 'contact_module/contact-us.html', {
-        'contact_form': contact_form
-    })
+    def valid(self, form):
+        form.save()
+        return super().form_valid(form)

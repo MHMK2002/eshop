@@ -10,7 +10,7 @@
         <div class="features_items">
             <h2 class="title text-center">لیست محصولات</h2>
             {% for product in products %}
-                {% render_partial 'product_module.views.product_box' slug=product.slug %}
+                {% render_partial 'product' slug=product.slug %}
             {% endfor %}
             <div class="clearfix"></div>
             <ul class="pagination">
