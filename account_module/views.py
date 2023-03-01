@@ -1,13 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.generic import View
-
-from account_module.forms import RegisterForm
+from django.utils.crypto import get_random_string
+from account_module.forms import RegisterForm, LoginForm
 from account_module.models import User
 
 
 # Create your views here.
-
-
 class RegisterUser(View):
     def get(self, request):
         register_form = RegisterForm()
@@ -23,12 +21,26 @@ class RegisterUser(View):
             username = request.POST['username']
             email = request.POST['email']
             password = request.POST['password']
-            user = User(username=username, email=email, password=password)
+            user = User(username=username, email=email, email_activation_code=get_random_string(72))
+            user.set_password(password)
             user.save()
-            return redirect('home')
+            # TODO: send activation code
+            return redirect('login-page')
 
         context = {
             'register_form': register_form
         }
 
         return render(request, 'account_module/register-page.html', context)
+
+
+class LoginUser(View):
+    def get(self, request):
+        login_form = LoginForm()
+        context = {
+            'login_form': login_form
+        }
+        return render(request, 'account_module/login-register.html', context)
+
+    def post(self):
+        pass
