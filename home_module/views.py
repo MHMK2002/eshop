@@ -6,10 +6,6 @@ def index(request):
     return render(request, 'home_module/index.html')
 
 
-def home(request):
-    return HttpResponseRedirect(redirect_to='home')
-
-
 def header_component(request):
     return render(request, 'shared/header.html')
 

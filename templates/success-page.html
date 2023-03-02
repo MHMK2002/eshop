@@ -1,0 +1,35 @@
+{% load render_partial %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    {% include 'shared/header_refrences.html' %}
+    <title>
+        صفحه موفقیت
+    </title>
+</head>
+
+<body>
+
+<div class="container text-center">
+    <div class="container">
+        <section id="form">
+            <div class="row">
+                <div class="col-sm-6 col-md-offset-3">
+                    <div class="signup-form">
+                        <h2><a href="{% url 'home' %}">برو به صفحـه اصلی</a></h2>
+                        <br/><br/>
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+{% include 'shared/footer_refrences.html' %}
+</body>
+</html>

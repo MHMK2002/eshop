@@ -25,5 +25,5 @@ urlpatterns = [
     path('', include(home_url)),
     path('products/', include(product_url)),
     path('contact-us', include(contact_url)),
-    path('account/', include(account_url))
+    path('', include(account_url))
 ]

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {{ title }}
+    </title>
+    <style>
+    </style>
+</head>
+<body>
+<div style="width: 640px;
+            height: auto;
+            margin: 0 auto;
+            padding: 10px;
+            position: relative;">
+    <div style="top: 60px;
+                left: 160px;
+                right: 10px;
+                width: 500px;
+                min-height:150px;
+                height: auto;
+                background-color: #FE980F;
+                position: relative;
+                padding: 100px;
+                border-radius: 20px"
+
+    >
+        <h2 style="position: absolute; text-align: right; top: 10%; right: 5%">
+            سلام {{ name }} عزیز
+        </h2>
+
+        <p style="text-align: right; padding: 10px">
+            {{ message }}
+        </p>
+
+        <a href="{{ link }}"
+           style="padding: 5px 10px; text-align: center; background-color: #F2F2F2; border-radius: 10px; color: #000000; text-decoration: none; position: absolute; left: 40%; right: 40%; bottom: 20%">
+            {{ link_text }}
+        </a>
+    </div>
+</div>
+</body>
+</html>

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'product_module',
     'contact_module',
     'account_module',
+    'email_module',
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,11 @@ LOGGING = {
         'level': 'INFO'
     }
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mhmk.eshop@gmail.com'
+EMAIL_HOST_PASSWORD = 'xvbrdyvdxzhbtich'
+EMAIL_USE_TLS = True
