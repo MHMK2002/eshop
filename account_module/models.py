@@ -10,7 +10,8 @@ class User(AbstractUser):
                               verbose_name='پروفایل کاربر',
                               default='medias/images/default-profile.png')
     phone_number = models.CharField(max_length=20, verbose_name='تلفن همراه', null=True)
-    email_activation_code = models.CharField(max_length=300, verbose_name='کد فعال سازی', null=True)
+    email_activation_code = models.CharField(max_length=100, verbose_name='کد فعال سازی', null=True)
+    password_activation_code = models.CharField(max_length=100, verbose_name='کد فعال سازی رمز عبور', null=True)
 
     def __str__(self):
         return self.username

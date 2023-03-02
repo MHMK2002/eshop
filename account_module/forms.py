@@ -56,3 +56,27 @@ class LoginForm(forms.Form):
     }))
 
 
+class ForgotPasswordForm(forms.Form):
+    email = forms.CharField(max_length=100, widget=forms.EmailInput(attrs={
+        'placeholder': 'ایمیل'
+    }))
+
+
+class ResetPasswordForm(forms.Form):
+    password = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={
+        'placeholder': 'رمزعبور'
+    }))
+    confirm_password = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={
+        'placeholder': 'تکرار رمز عبور'
+    }))
+
+    def clean_confirm_password(self):
+        confirm_password = self.cleaned_data.get('confirm_password')
+        password = self.cleaned_data.get('password')
+        if password != confirm_password:
+            raise ValidationError(message='رمز عبور با تکرار رمز عبور مغایرت دارد.')
+
+        password_pattern = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$"
+        if re.match(password_pattern, password) is None:
+            raise ValidationError(message='پسورد معتبر نمی باشد.')
+        return confirm_password
