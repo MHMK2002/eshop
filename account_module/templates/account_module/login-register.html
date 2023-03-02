@@ -11,13 +11,11 @@
 				<div class="col-sm-6 col-md-offset-3">
 					<div class="login-form">
 						<h2>ورود به حساب کاربـری :</h2>
-						<form action="#">
+						<form action="{% url 'login-page' %}" method="post">
+                            {% csrf_token %}
 							{{ login_form.username }}
 							{{ login_form.password }}
-							<span>
-								<input type="checkbox" class="checkbox">
-								مرا بخاطـر بسپـار
-							</span>
+                            {{ login_form.username.errors }}
 							<span>
 								<a href="forget-password.html">رمـز عبـور خود را فراموش کرده ام</a>
 							</span>
