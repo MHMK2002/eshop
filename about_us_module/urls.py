@@ -5,7 +5,7 @@ from eshop import settings
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='home')
+    path('about-us', views.AboutUsView.as_view(), name='about_us')
 ]
 
 if settings.DEBUG:

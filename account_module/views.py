@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.core.mail import send_mail
 from django.http import HttpRequest, Http404
 from django.shortcuts import render, redirect
@@ -161,3 +161,9 @@ class ResetPassword(View):
             'message': 'رمز عبور با موفقیت تغییر کرد.'
         }
         return render(request, 'success-page.html', context)
+
+
+class Logout(View):
+    def get(self, request: HttpRequest):
+        logout(request=request)
+        return redirect('home')

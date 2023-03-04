@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'contact_module',
     'account_module',
     'email_module',
+    'site_module',
+    'about_us_module',
 ]
 
 MIDDLEWARE = [
@@ -77,8 +79,8 @@ WSGI_APPLICATION = 'eshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-MEDIA_ROOT = BASE_DIR / 'files'
-MEDIA_URL = 'medias/'
+MEDIA_ROOT = BASE_DIR / 'files/'
+MEDIA_URL = '/medias/'
 
 DATABASES = {
     'default': {

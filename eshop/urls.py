@@ -19,11 +19,13 @@ from home_module import urls as home_url
 from product_module import urls as product_url
 from contact_module import urls as contact_url
 from account_module import urls as account_url
+from about_us_module import urls as about_url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(home_url)),
     path('products/', include(product_url)),
     path('contact-us', include(contact_url)),
-    path('', include(account_url))
+    path('', include(account_url)),
+    path('', include(about_url)),
 ]
