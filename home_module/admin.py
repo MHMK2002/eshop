@@ -6,3 +6,13 @@ from . import models
 @admin.register(models.Slider)
 class AdminSlider(admin.ModelAdmin):
     pass
+
+
+@admin.register(models.FooterLinkBox)
+class AdminFooterLinkBox(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.FooterLink)
+class AdminFooterLink(admin.ModelAdmin):
+    pass

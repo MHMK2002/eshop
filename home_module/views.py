@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
 from django.views import View
 
-from home_module.models import Slider
+from home_module.models import Slider, FooterLinkBox
 from site_module.models import SiteSettings
 
 
@@ -35,7 +35,9 @@ def header_component(request):
 
 
 def footer_component(request):
+    link_boxes = FooterLinkBox.objects.filter(is_active=True)
     context = {
+        'link_boxes': link_boxes,
         'settings': SiteSettings.objects.all().first()
     }
     return render(request, 'shared/footer.html', context)
