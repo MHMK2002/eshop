@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'account_module',
     'email_module',
     'site_module',
-    'about_us_module',
 ]
 
 MIDDLEWARE = [
@@ -147,7 +146,6 @@ LOGGING = {
         'level': 'INFO'
     }
 }
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

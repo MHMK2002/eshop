@@ -1,11 +1,30 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
+from django.views import View
 
+from home_module.models import Slider
 from site_module.models import SiteSettings
 
 
-def index(request):
-    return render(request, 'home_module/index.html')
+class HomeView(View):
+    def get(self, request: HttpRequest):
+        sliders: Slider = Slider.objects.filter(is_active=True)
+        settings: SiteSettings = SiteSettings.objects.filter(mail_setting=True).first()
+        context = {
+            'sliders': sliders,
+            'settings': settings
+        }
+        return render(request, 'home_module/index.html', context)
+
+    def post(self, request):
+        pass
+
+
+class AboutUsView(View):
+    def get(self, request: HttpRequest):
+        return render(request, 'home_module/about-us.html', {
+            'settings': SiteSettings.objects.all().first()
+        })
 
 
 def header_component(request):
