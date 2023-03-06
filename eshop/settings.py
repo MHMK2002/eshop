@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'email_module',
     'site_module',
     'blog_module',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
