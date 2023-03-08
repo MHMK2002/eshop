@@ -44,7 +44,7 @@
 										<i class="fa {% if blog.get_rating > 4 %}fa-star{% else %}fa-star-o{% endif %}"></i>
 								</span>
                                 </div>
-                                <a href="">
+                                <a href="{% url 'blog_detail' slug=blog.slug %}">
                                     {% thumbnail blog.image "862x398" crop="center" as im %}
                                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
                                              alt="تصویر مقاله">
@@ -53,7 +53,7 @@
                                 <p>
                                     {{ blog.short_description }}
                                 </p>
-                                <a class="btn btn-primary" href="">ادامـه مطلب</a>
+                                <a class="btn btn-primary" href="{% url 'blog_detail' slug=blog.slug %}">ادامـه مطلب</a>
                             </div>
                         {% endfor %}
 

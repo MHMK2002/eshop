@@ -2,7 +2,8 @@ from django.http import HttpResponse
 
 from account_module.models import User
 from django.db import models
-from django.utils.text import slugify
+
+from my_method_module.my_slug import get_unique_slug
 
 
 class BlogCategory(models.Model):
@@ -34,11 +35,11 @@ class Blog(models.Model):
     title_in_url = models.CharField(max_length=300, verbose_name='عنوان مقاله در url')
     short_description = models.TextField(verbose_name='خلاصه مقاله')
     description = models.TextField(verbose_name='متن مقاله')
-    date_created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد مقاله')
-    view_counter = models.IntegerField(verbose_name='تعداد بازدیدها', default=0)
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد مقاله', editable=False)
+    view_counter = models.IntegerField(verbose_name='تعداد بازدیدها', default=0, editable=False)
     image = models.ImageField(verbose_name='تصویر مقاله', upload_to='files/images/blogs')
-    slug = models.SlugField(verbose_name='اسلاگ', allow_unicode=True, auto_created=True)
-    tags = models.ManyToManyField(to=BlogTag, verbose_name='تگ ها', null=True, blank=True)
+    slug = models.SlugField(verbose_name='اسلاگ', allow_unicode=True, auto_created=True, blank=True)
+    tags = models.ManyToManyField(to=BlogTag, verbose_name='تگ ها', blank=True)
     blog_categories = models.ManyToManyField(to=BlogCategory, verbose_name='دسته بندی ها')
     auther = models.ForeignKey(to=User, verbose_name='نویسنده', on_delete=models.CASCADE, editable=False)
     is_active = models.BooleanField(default=True, verbose_name='فعال / غیرفعال')
@@ -47,7 +48,7 @@ class Blog(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = get_unique_slug(self.id, self.title_in_url, Blog.objects)
         super().save(*args, **kwargs)
 
     def get_rating(self):
@@ -64,6 +65,7 @@ class Blog(models.Model):
 
 
 class BlogComment(models.Model):
+    replay = models.ForeignKey(to='BlogComment', verbose_name='ریپلای به', on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(to=User, verbose_name='کاربر', on_delete=models.CASCADE)
     rating = models.IntegerField(verbose_name='نمره')
     comment = models.TextField(verbose_name='متن نظر')
