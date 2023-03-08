@@ -14,7 +14,10 @@ class User(AbstractUser):
     password_activation_code = models.CharField(max_length=100, verbose_name='کد فعال سازی رمز عبور', null=True)
 
     def __str__(self):
-        return self.username
+        if self.get_full_name() is not '':
+            return self.get_full_name()
+        else:
+            return self.get_username()
 
     class Meta:
         verbose_name = 'کاربر'

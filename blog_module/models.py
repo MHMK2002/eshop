@@ -50,6 +50,14 @@ class Blog(models.Model):
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
+    def get_rating(self):
+        if len(self.blogcomment_set.all()) > 0:
+            sum_rating = sum(self.blogcomment_set.all())
+            count = len(self.blogcomment_set.all())
+            return float(sum_rating) / count
+        else:
+            return 3
+
     class Meta:
         verbose_name = 'مقاله'
         verbose_name_plural = 'مقالات'
@@ -62,7 +70,7 @@ class BlogComment(models.Model):
     blog = models.ForeignKey(to=Blog, verbose_name='مقاله', on_delete=models.CASCADE)
 
     def __str__(self):
-        f"""{self.user.username} {self.id}"""
+        return f"""{self.user.username} {self.id}"""
 
     class Meta:
         verbose_name = 'نظر'

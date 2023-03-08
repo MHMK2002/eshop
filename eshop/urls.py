@@ -29,5 +29,6 @@ urlpatterns = [
     path('products/', include(product_url)),
     path('contact-us/', include(contact_url)),
     path('', include(account_url)),
-    path('blog/', include(blog_url))
+    path('blog/', include(blog_url)),
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ]

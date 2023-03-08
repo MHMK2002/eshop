@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_render_partial',
+    # Internal module
     'home_module',
     'product_module',
     'contact_module',
@@ -43,7 +44,9 @@ INSTALLED_APPS = [
     'email_module',
     'site_module',
     'blog_module',
+    # External module
     'sorl.thumbnail',
+    'star_ratings',
 ]
 
 MIDDLEWARE = [
