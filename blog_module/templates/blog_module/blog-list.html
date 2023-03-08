@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+{% load render_partial %}
 {% load static %}
 {% load thumbnail %}
+{% load poll_extras %}
 
 {% block header_refrences %}
     <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
@@ -18,15 +20,21 @@
             <div class="row">
                 <div class="col-sm-9">
                     <div class="blog-post-area">
-                        <h2 class="title text-center">مقالات</h2>
+                        <h2 class="title text-center">
+                            {% if title == '' %}
+                                همه ی مقالات
+                                {% else %}
+                                    مقالات دسته بندی {{ title }}
+                            {% endif %}
+                        </h2>
                         {% for blog in page_obj %}
                             <div class="single-blog-post">
                                 <h3>{{ blog.title }}</h3>
                                 <div class="post-meta">
                                     <ul>
                                         <li><i class="fa fa-user"></i>{{ blog.auther }}</li>
-                                        <li><i class="fa fa-clock-o"></i> 17:20 ب.ظ</li>
-                                        <li><i class="fa fa-calendar"></i> 28 تیـر 1397</li>
+                                        <li><i class="fa fa-clock-o"></i>{{ blog.date_created.time }}</li>
+                                        <li><i class="fa fa-calendar"></i>{{ blog.date_created.date|to_jalali }}</li>
                                     </ul>
                                     <span>
 										<i class="fa {% if blog.get_rating > 0 %}fa-star{% else %}fa-star-o{% endif %}"></i>
@@ -63,6 +71,7 @@
                         </div>
                     </div>
                 </div>
+                {% render_partial 'blog_module.views.category_sidebar' %}
             </div>
         </div>
     </section>

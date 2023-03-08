@@ -1,0 +1,31 @@
+{% load render_partial %}
+
+{% if category.blogcategory_set.all %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordian" href="#{{ category.title_url }}">
+                    <span class="badge pull-right"><i class="fa fa-plus" style="color: red;"></i></span>
+                    <a href="{% url 'blog_by_category' title_url=category.title_url %}">
+                        {{ category.title }}
+                    </a>
+                </a>
+            </h4>
+        </div>
+        <div id="{{ category.title_url }}" class="panel-collapse collapse">
+            <div class="panel-body">
+                <ul>
+                    {% for sub_category in category.blogcategory_set.all %}
+                        {% render_partial 'blog_module.views.category_sidebar_component' title_url=sub_category.title_url %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a href="#">{{ category.title }}</a></h4>
+        </div>
+    </div>
+{% endif %}
