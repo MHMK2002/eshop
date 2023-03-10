@@ -1,9 +1,10 @@
 from django.core.paginator import Paginator
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView
 
-from blog_module.models import Blog, BlogCategory
+from blog_module.models import Blog, BlogCategory, BlogComment
 
 
 # Create your views here.
@@ -56,12 +57,17 @@ class BlogByCategoryListView(ListView):
 
 class BlogDetailView(View):
     def get(self, request, slug):
-        template = 'blog_module/blog_detail.html'
         blog = Blog.objects.filter(slug__iexact=slug).first()
+        comments = blog.blogcomment_set.filter(replay=None).order_by('-date_created')
+        tags = blog.tags.all()[:3]
+        count = blog.blogcomment_set.count()
         context = {
-            'blog': blog
+            'blog': blog,
+            'comments': comments,
+            'tags': tags,
+            'count': count,
         }
-        return render(request, template, context)
+        return render(request, 'blog_module/blog_detail.html', context)
 
     def post(self, request, slug):
         pass
@@ -81,3 +87,29 @@ def category_sidebar(request):
         'main_categories': main_categories
     }
     return render(request, 'blog_module/category_sidebar.html', context)
+
+
+def comment_component(request: HttpRequest, comment_id: int):
+    comment = BlogComment.objects.filter(id=comment_id).first()
+    sub_comments = comment.blogcomment_set.order_by('-date_created')
+    context = {
+        'comment': comment,
+        'sub_comments': sub_comments
+    }
+    template = 'blog_module/comment-component.html'
+    return render(request, template, context)
+
+
+def add_comment(request):
+    if request.user.is_authenticated:
+        auther_id = request.user.id
+        comment_text = request.GET['comment_text']
+        blog_id = request.GET['blog_id']
+        replay_id = None if request.GET['replay_id'] == '' else request.GET['replay_id']
+        comment = BlogComment(blog_id=blog_id,
+                              auther_id=auther_id,
+                              text=comment_text,
+                              replay_id=replay_id)
+        comment.save()
+
+    return HttpResponse('hello')

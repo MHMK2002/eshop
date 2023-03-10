@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load thumbnail %}
 {% load render_partial %}
 {% load poll_extras %}
 {% block title %}
@@ -29,9 +30,10 @@
 										<i class="fa {% if blog.get_rating > 4 %}fa-star{% else %}fa-star-o{% endif %}"></i>
 								</span>
                             </div>
-                            <a href="">
-                                <img src="/static/images/blog/blog-one.jpg" alt="">
-                            </a>
+                            {% thumbnail blog.image "862x398" crop="center" as im %}
+                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}"
+                                     alt="تصویر مقاله">
+                            {% endthumbnail %}
                             <p>
                                 {{ blog.short_description }}
                             </p>
@@ -42,23 +44,14 @@
                     </div><!--/blog-post-area-->
 
                     <div class="rating-area">
-                        <ul class="ratings">
-                            <li class="rate-this">به این مطلب امتیـاز دهیـد :</li>
-                            <li>
-                                <i class="fa fa-star color"></i>
-                                <i class="fa fa-star color"></i>
-                                <i class="fa fa-star color"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </li>
-                            <li class="color">( 6 نظـر )</li>
-                        </ul>
-                        <ul class="tag">
-                            <li>برچسب :</li>
-                            <li><a class="color" href="">برچسب 1 <span>/</span></a></li>
-                            <li><a class="color" href="">برچسب 2 <span>/</span></a></li>
-                            <li><a class="color" href="">برچسب 3</a></li>
-                        </ul>
+                        {% if tags.count > 0 %}
+                            <ul class="tag">
+                                <li>برچسب ها :</li>
+                                {% for tag in tags %}
+                                    <li><a class="color" href="">{{ tag.title }} </a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                     </div><!--/rating-area-->
 
                     <div class="socials-share">
@@ -67,14 +60,15 @@
 
                     <div class="media commnets">
                         <a class="pull-right" href="#">
-                            <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
+                            {% thumbnail blog.auther.image "100x100" crop="center" as im%}
+                                <img src="{{ im.url }}" alt="تصویر نویسنده">
+                            {% endthumbnail %}
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">نویسنده 1</h4>
-                            <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده ازلورملورم ایپسوم
-                                متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها
-                                و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی
-                                مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p>
+                            <h4 class="media-heading">{{ blog.auther }}</h4>
+                            <p>
+                                {{ blog.auther.about_user }}
+                            </p>
                             <div class="blog-socials">
                                 <ul>
                                     <li><a href=""><i class="fa fa-facebook"></i></a></li>
@@ -86,102 +80,32 @@
                             </div>
                         </div>
                     </div><!--Comments-->
-                    <div class="response-area">
-                        <h2>پاسخ ها (3)</h2>
+                    <div class="response-area" id="comment-area">
+                        <h2>پاسخ ها ({{ count }})</h2>
                         <ul class="media-list">
-                            <li class="media">
-
-                                <a class="pull-right" href="#">
-                                    <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
-                                </a>
-                                <div class="media-body">
-                                    <ul class="sinlge-post-meta">
-                                        <li><i class="fa fa-user"></i>مشتـری شمـاره 1</li>
-                                        <li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>
-                                        <li><i class="fa fa-calendar"></i> 25 تیـر 1397</li>
-                                    </ul>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده ازلورملورم
-                                        ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                        گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
-                                        برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-                                        کاربردی می باشد.</p>
-                                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
-                                </div>
-                            </li>
-                            <li class="media second-media">
-                                <a class="pull-right" href="#">
-                                    <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
-                                </a>
-                                <div class="media-body">
-                                    <ul class="sinlge-post-meta">
-                                        <li><i class="fa fa-user"></i>مشتـری شمـاره 1</li>
-                                        <li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>
-                                        <li><i class="fa fa-calendar"></i> 25 تیـر 1397</li>
-                                    </ul>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده ازلورملورم
-                                        ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                        گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
-                                        برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-                                        کاربردی می باشد.</p>
-                                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <a class="pull-right" href="#">
-                                    <img class="media-object" src="/static/images/blog/Customer.jpg" alt="">
-                                </a>
-                                <div class="media-body">
-                                    <ul class="sinlge-post-meta">
-                                        <li><i class="fa fa-user"></i>مشتـری شمـاره 1</li>
-                                        <li><i class="fa fa-clock-o"></i> 13:33 ب.ظ</li>
-                                        <li><i class="fa fa-calendar"></i> 25 تیـر 1397</li>
-                                    </ul>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده ازلورملورم
-                                        ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                        گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
-                                        برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-                                        کاربردی می باشد.</p>
-                                    <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
-                                </div>
-                            </li>
+                            {% for comment in comments.all %}
+                                {% render_partial 'blog_module.views.comment_component' comment_id=comment.id %}
+                            {% endfor %}
                         </ul>
                     </div><!--/Response-area-->
-                    <div class="replay-box">
+                    {% if request.user.is_authenticated %}
+                        <div class="replay-box" id="comment-box">
                         <div class="row">
-
-                            <div class="col-sm-8">
+                            <div class="col-sm-12">
                                 <div class="text-area">
                                     <div class="blank-arrow">
                                         <label>متن پیام</label>
                                     </div>
-                                    <span>*</span>
-                                    <textarea name="message" rows="11"></textarea>
-                                    <a class="btn btn-primary" href="">ارسـال نظـر</a>
+                                    <textarea name="message" rows="11" id="comment-text"></textarea>
+                                    <a class="btn btn-primary" onclick="addComment({{ blog.id }})">ارسـال نظـر</a>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <h2>نظـر خود را بنویسیـد</h2>
-                                <form>
-                                    <div class="blank-arrow">
-                                        <label>نام</label>
-                                    </div>
-                                    <span>*</span>
-                                    <input type="text" placeholder="نام شما ...">
-                                    <div class="blank-arrow">
-                                        <label>آدرس ایمیـل</label>
-                                    </div>
-                                    <span>*</span>
-                                    <input type="email" placeholder="ایمیـل شما ...">
-                                    <div class="blank-arrow">
-                                        <label>وبسایت</label>
-                                    </div>
-                                    <input type="email" placeholder="آدرس وبسایـت">
-                                </form>
-                            </div>
                         </div>
-                    </div><!--/Repaly Box-->
+                    </div>
+                    {% else %}
+                        <div class="alert alert-warning"> لطفا برای نظر دادن <a href={% url 'login-page' %}>لاگین</a>  کنید </div>
+                    {% endif %}
                 </div>
-
                 {% render_partial 'blog_module.views.category_sidebar' %}
             </div>
         </div>

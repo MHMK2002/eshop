@@ -1,0 +1,44 @@
+{% load poll_extras %}
+{% load thumbnail %}
+
+<li class="media">
+    <a class="pull-right" href="#">
+        {% thumbnail comment.auther.image "100x100" as im %}
+            <img src="{{ im.url }}" alt="user-avatar">
+        {% endthumbnail %}
+    </a>
+    <div class="media-body">
+        <ul class="sinlge-post-meta">
+            <li><i class="fa fa-user"></i>{{ comment.auther }}</li>
+            <li><i class="fa fa-clock-o"></i>{{ comment.date_created|time }}</li>
+            <li><i class="fa fa-calendar"></i>{{ comment.date_created|to_jalali }}</li>
+        </ul>
+        <p>
+            {{ comment.text }}
+        </p>
+        <a class="btn btn-primary" onclick="setParentId({{ comment.id }})">
+            <i class="fa fa-reply"></i>پاسـخ
+        </a>
+        <input type="hidden" id="parent-id"/>
+    </div>
+</li>
+
+{% for sub_comment in sub_comments.all %}
+    <li class="media second-media">
+        <a class="pull-right" href="#">
+            {% thumbnail sub_comment.auther.image "100x100" as im %}
+                <img src="{{ im.url }}" alt="user-avatar">
+            {% endthumbnail %}
+        </a>
+        <div class="media-body">
+            <ul class="sinlge-post-meta">
+                <li><i class="fa fa-user"></i>{{ sub_comment.auther }}</li>
+                <li><i class="fa fa-clock-o"></i>{{ sub_comment.date_created|time }}</li>
+                <li><i class="fa fa-calendar"></i>{{ sub_comment.date_created|to_jalali }}</li>
+            </ul>
+            <p>
+                {{ sub_comment.text }}
+            </p>
+        </div>
+    </li>
+{% endfor %}

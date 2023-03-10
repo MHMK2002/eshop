@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
 
 
 # Create your models here.
@@ -8,13 +9,14 @@ from django.db import models
 class User(AbstractUser):
     image = models.ImageField(upload_to='files/images',
                               verbose_name='پروفایل کاربر',
-                              default='medias/images/default-profile.png')
+                              default='images/user/profile-icon.png')
     phone_number = models.CharField(max_length=20, verbose_name='تلفن همراه', null=True)
     email_activation_code = models.CharField(max_length=100, verbose_name='کد فعال سازی', null=True)
     password_activation_code = models.CharField(max_length=100, verbose_name='کد فعال سازی رمز عبور', null=True)
+    about_user = models.TextField(verbose_name='درباره شخص', null=True, blank=True)
 
     def __str__(self):
-        if self.get_full_name() is not '':
+        if self.get_full_name() != '':
             return self.get_full_name()
         else:
             return self.get_username()

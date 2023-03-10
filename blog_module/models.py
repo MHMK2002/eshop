@@ -65,14 +65,16 @@ class Blog(models.Model):
 
 
 class BlogComment(models.Model):
-    replay = models.ForeignKey(to='BlogComment', verbose_name='ریپلای به', on_delete=models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey(to=User, verbose_name='کاربر', on_delete=models.CASCADE)
-    rating = models.IntegerField(verbose_name='نمره')
-    comment = models.TextField(verbose_name='متن نظر')
+    replay = models.ForeignKey(to='BlogComment', verbose_name='ریپلای به', on_delete=models.CASCADE, null=True,
+                               blank=True)
+    auther = models.ForeignKey(to=User, verbose_name='کاربر', on_delete=models.CASCADE)
+    rating = models.IntegerField(verbose_name='نمره', null=True)
+    text = models.TextField(verbose_name='متن نظر')
     blog = models.ForeignKey(to=Blog, verbose_name='مقاله', on_delete=models.CASCADE)
+    date_created = models.DateTimeField(verbose_name='تاریخ نظر', auto_now_add=True)
 
     def __str__(self):
-        return f"""{self.user.username} {self.id}"""
+        return f"""{self.auther.username} {self.id}"""
 
     class Meta:
         verbose_name = 'نظر'

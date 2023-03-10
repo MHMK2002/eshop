@@ -22,22 +22,24 @@ class RegisterUser(View):
     def post(self, request):
         register_form = RegisterForm(request.POST)
         if register_form.is_valid():
-            username = request.POST['username']
-            user_email = request.POST['email']
-            user_password = request.POST['password']
-            user = User(username=username, email=user_email, email_activation_code=get_random_string(72))
-            user.set_password(user_password)
-            user.is_active = False
-            user.save()
-            subject = 'فعال سازی حساب'
-            to = user_email
-            context = {
-                'user': user,
-                'link': f'http://localhost:8000/active-account/{user.email_activation_code}'
-            }
-
-            send_email(subject, to, 'emails/active-account.html', context)
-            return redirect('login-page')
+            try:
+                username = request.POST['username']
+                user_email = request.POST['email']
+                user_password = request.POST['password']
+                user = User(username=username, email=user_email, email_activation_code=get_random_string(72))
+                user.set_password(user_password)
+                user.is_active = False
+                user.save()
+                subject = 'فعال سازی حساب'
+                to = user_email
+                context = {
+                    'user': user,
+                    'link': f'http://localhost:8000/active-account/{user.email_activation_code}'
+                }
+                send_email(subject, to, 'emails/active-account.html', context)
+                return redirect('login-page')
+            except Exception as e:
+                print(e)
 
         context = {
             'register_form': register_form
